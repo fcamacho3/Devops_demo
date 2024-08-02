@@ -3,39 +3,36 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.12.1'
           
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest
-          pip install -r requirements.txt # or use poetry install if you're using poetry
+          pip install -r requirements.txt
           
       - name: Run tests with Pytest
         run: pytest
 
-        
   build-and-push-docker:
     needs: test
     runs-on: ubuntu-latest
+    environment: production # Specifies the environment to use
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -45,17 +42,14 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Debug - Print secrets
-        run: echo "Username: ${{ secrets.DOCKERHUB_USERNAME }}"
-        if: always()  # To ensure it runs even if the previous step fails
           
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
           push: true
           tags: fcamacho3/devops_demo:latest
+
+          # Add other relevant build parameters here
           
       - name: Logout from Docker Hub
         run: docker logout
