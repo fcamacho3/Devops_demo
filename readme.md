@@ -5,4 +5,9 @@ docker run devops-demo -m pytest --> pytest printed out
 
 
 Github actions passed and docker build pushed to dockerhub
-![image]
+## Docker
+> Docker Account
+![Docker Image](EmbeddedFiles/Docker_Image.png)
+
+> Docker Repo
+![Docker Repo](EmbeddedFiles/Docker_Repo.png)
