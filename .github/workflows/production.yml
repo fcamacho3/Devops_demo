@@ -55,3 +55,7 @@ jobs:
           
       - name: Logout from Docker Hub
         run: docker logout
+        
+      - name: Debug - Print secrets
+        run: echo "Username: ${{ secrets.DOCKERHUB_USERNAME }}"
+        if: always()  # To ensure it runs even if the previous step fails
