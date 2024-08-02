@@ -50,7 +50,3 @@ jobs:
           tags: fcamacho3/devops_demo:latest
 
           # Add other relevant build parameters here
-          
-      - name: Logout from Docker Hub
-        run: docker logout
-
