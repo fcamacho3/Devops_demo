@@ -49,5 +49,9 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
+          context: .
           push: true
           tags: fcamacho3/devops_demo:latest
+          
+      - name: Logout from Docker Hub
+        run: docker logout
